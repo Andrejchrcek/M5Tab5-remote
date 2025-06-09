@@ -12,6 +12,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
 #include <esp_wifi.h>
+#include <ctype.h>
 #include <nvs_flash.h>
 #include <esp_event.h>
 #include <esp_log.h>
@@ -35,7 +36,6 @@ static void url_decode(char* dst, const char* src)
     char a, b;
     while (*src) {
         if ((*src == '%') && ((a = src[1]) && (b = src[2])) && isxdigit(a) && isxdigit(b)) {
- fhze0z-codex/update-device-to-support-ap-and-station-modes       
             a = (a >= 'a') ? a - 'a' + 10 : (a >= 'A') ? a - 'A' + 10 : a - '0';
             b = (b >= 'a') ? b - 'a' + 10 : (b >= 'A') ? b - 'A' + 10 : b - '0';
  main
@@ -85,13 +85,12 @@ static void wifi_reconfigure()
 // HTTP handler: configuration page
 esp_err_t config_get_handler(httpd_req_t* req)
 {
- fhze0z-codex/update-device-to-support-ap-and-station-modes
+ main
     // The HTML page contains several input fields for SSIDs and password.
     // With maximum lengths of the credentials the generated page can exceed
     // 512 bytes, which triggered a -Wformat-truncation build error.
     // Use a larger buffer to hold the entire page comfortably.
- 
-    char html[512];
+    char html[768];
  main
     snprintf(html, sizeof(html),
              R"rawliteral(
@@ -127,9 +126,7 @@ esp_err_t config_post_handler(httpd_req_t* req)
     }
     buf[received] = '\0';
 
- fhze0z-codex/update-device-to-support-ap-and-station-modes
     char* tok = strtok(buf, "&");
-
  main
     while (tok) {
         if (strncmp(tok, "ap_ssid=", 8) == 0) {
@@ -149,6 +146,7 @@ esp_err_t config_post_handler(httpd_req_t* req)
 }
 
 // URI routes
+
  fhze0z-codex/update-device-to-support-ap-and-station-modes
 httpd_uri_t root_uri = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
 httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
