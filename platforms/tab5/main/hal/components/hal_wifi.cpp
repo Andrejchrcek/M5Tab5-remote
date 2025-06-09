@@ -24,6 +24,7 @@
 static char g_ap_ssid[32]  = WIFI_SSID;
 static char g_sta_ssid[32] = DEFAULT_STA_SSID;
 static char g_sta_pass[64] = DEFAULT_STA_PASS;
+
 static bool g_wifi_started = false;
 
 extern "C" const char* hal_wifi_get_ap_ssid()
