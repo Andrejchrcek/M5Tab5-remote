@@ -24,6 +24,7 @@ extern "C" void app_main(void)
     lv_label_set_text(label, ssid);
     lv_obj_center(label);
 
+
     while (true) {
         lv_timer_handler();
         vTaskDelay(pdMS_TO_TICKS(10));
