@@ -21,9 +21,9 @@
 
 #define TAG "wifi"
 
-#define WIFI_SSID    "M5Tab5-UserDemo-WiFi"
-#define WIFI_PASS    ""
-#define MAX_STA_CONN 4
+#define WIFI_SSID    "Princ3D"
+#define WIFI_PASS    "12345678"
+#define MAX_STA_CONN 10
 
 // HTTP 处理函数
 esp_err_t hello_get_handler(httpd_req_t* req)
@@ -99,7 +99,7 @@ void wifi_init_softap()
     std::strncpy(reinterpret_cast<char*>(wifi_config.ap.password), WIFI_PASS, sizeof(wifi_config.ap.password));
     wifi_config.ap.ssid_len       = std::strlen(WIFI_SSID);
     wifi_config.ap.max_connection = MAX_STA_CONN;
-    wifi_config.ap.authmode       = WIFI_AUTH_OPEN;
+    wifi_config.ap.authmode       = WIFI_AUTH_WPA2_PSK;
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
