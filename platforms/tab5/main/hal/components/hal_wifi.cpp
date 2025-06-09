@@ -36,9 +36,8 @@ static void url_decode(char* dst, const char* src)
     char a, b;
     while (*src) {
         if ((*src == '%') && ((a = src[1]) && (b = src[2])) && isxdigit(a) && isxdigit(b)) {
-            a = (a >= 'a') ? a - 'a' + 10 : (a >= 'A') ? a - 'A' + 10 : a - '0';
-            b = (b >= 'a') ? b - 'a' + 10 : (b >= 'A') ? b - 'A' + 10 : b - '0';
- main
+            a      = (a >= 'a') ? a - 'a' + 10 : (a >= 'A') ? a - 'A' + 10 : a - '0';
+            b      = (b >= 'a') ? b - 'a' + 10 : (b >= 'A') ? b - 'A' + 10 : b - '0';
             *dst++ = 16 * a + b;
             src += 3;
         } else if (*src == '+') {
@@ -51,6 +50,7 @@ static void url_decode(char* dst, const char* src)
     *dst = '\0';
 }
 
+// (Re)initialize Wi-Fi with the currently configured AP and STA credentials
 static void wifi_reconfigure()
 {
     if (g_wifi_started) {
@@ -85,13 +85,11 @@ static void wifi_reconfigure()
 // HTTP handler: configuration page
 esp_err_t config_get_handler(httpd_req_t* req)
 {
- main
     // The HTML page contains several input fields for SSIDs and password.
     // With maximum lengths of the credentials the generated page can exceed
     // 512 bytes, which triggered a -Wformat-truncation build error.
     // Use a larger buffer to hold the entire page comfortably.
     char html[768];
- main
     snprintf(html, sizeof(html),
              R"rawliteral(
 <!DOCTYPE html>
@@ -127,7 +125,6 @@ esp_err_t config_post_handler(httpd_req_t* req)
     buf[received] = '\0';
 
     char* tok = strtok(buf, "&");
- main
     while (tok) {
         if (strncmp(tok, "ap_ssid=", 8) == 0) {
             url_decode(g_ap_ssid, tok + 8);
@@ -146,12 +143,8 @@ esp_err_t config_post_handler(httpd_req_t* req)
 }
 
 // URI routes
-
- fhze0z-codex/update-device-to-support-ap-and-station-modes
 httpd_uri_t root_uri = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
 httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
- = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
- main
 
 // 启动 Web Server
 httpd_handle_t start_webserver()
@@ -209,17 +202,3 @@ bool HalEsp32::wifi_init()
 
 void HalEsp32::setExtAntennaEnable(bool enable)
 {
-    _ext_antenna_enable = enable;
-    mclog::tagInfo(TAG, "set ext antenna enable: {}", _ext_antenna_enable);
-    bsp_set_ext_antenna_enable(_ext_antenna_enable);
-}
-
-bool HalEsp32::getExtAntennaEnable()
-{
-    return _ext_antenna_enable;
-}
-
-void HalEsp32::startWifiAp()
-{
-    wifi_init();
-}
