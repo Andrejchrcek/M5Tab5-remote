@@ -36,6 +36,7 @@ static void url_decode(char* dst, const char* src)
     char a, b;
     while (*src) {
         if ((*src == '%') && ((a = src[1]) && (b = src[2])) && isxdigit(a) && isxdigit(b)) {
+// (Re)initialize Wi-Fi with the currently configured AP and STA credentials
             a = (a >= 'a') ? a - 'a' + 10 : (a >= 'A') ? a - 'A' + 10 : a - '0';
             b = (b >= 'a') ? b - 'a' + 10 : (b >= 'A') ? b - 'A' + 10 : b - '0';
  main
