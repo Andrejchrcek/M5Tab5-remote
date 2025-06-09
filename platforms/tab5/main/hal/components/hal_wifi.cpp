@@ -25,6 +25,7 @@ static char g_sta_pass[64] = "";
 static bool g_wifi_started = false;
 
 extern "C" const char* hal_wifi_get_ap_ssid()
+
 {
     return g_ap_ssid;
 }
