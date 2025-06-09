@@ -3,20 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-#include "hal/hal_esp32.h"
-#include <mooncake_log.h>
-#include <vector>
-#include <memory>
 #include <string.h>
-#include <bsp/m5stack_tab5.h>
 #include <freertos/FreeRTOS.h>
-#include <freertos/event_groups.h>
 #include <esp_wifi.h>
 #include <ctype.h>
 #include <nvs_flash.h>
 #include <esp_event.h>
 #include <esp_log.h>
-#include <nvs_flash.h>
 #include <esp_netif.h>
 #include <esp_http_server.h>
 
@@ -30,6 +23,11 @@ static char g_ap_ssid[32]  = WIFI_SSID;
 static char g_sta_ssid[32] = "";
 static char g_sta_pass[64] = "";
 static bool g_wifi_started = false;
+
+const char* hal_wifi_get_ap_ssid()
+{
+    return g_ap_ssid;
+}
 
 static void url_decode(char* dst, const char* src)
 {
@@ -181,34 +179,3 @@ void wifi_init_apsta()
     wifi_reconfigure();
 }
 
-static void wifi_ap_test_task(void* param)
-{
-    wifi_init_apsta();
-    start_webserver();
-
-    while (1) {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-    vTaskDelete(NULL);
-}
-
-bool HalEsp32::wifi_init()
-{
-    mclog::tagInfo(TAG, "wifi init");
-
-    esp_err_t ret = nvs_flash_init();
-    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-        ESP_ERROR_CHECK(nvs_flash_erase());
-        ret = nvs_flash_init();
-    }
-    ESP_ERROR_CHECK(ret);
-
-    xTaskCreate(wifi_ap_test_task, "ap", 4096, nullptr, 5, nullptr);
-    return true;
-}
-
-void HalEsp32::setExtAntennaEnable(bool enable)
-{
-    _ext_antenna_enable = enable;
-    mclog::tagInfo(TAG, "set ext antenna enable: {}", _ext_antenna_enable);
-}
