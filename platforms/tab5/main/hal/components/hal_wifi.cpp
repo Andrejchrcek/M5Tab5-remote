@@ -202,17 +202,3 @@ bool HalEsp32::wifi_init()
 
 void HalEsp32::setExtAntennaEnable(bool enable)
 {
-    _ext_antenna_enable = enable;
-    mclog::tagInfo(TAG, "set ext antenna enable: {}", _ext_antenna_enable);
-    bsp_set_ext_antenna_enable(_ext_antenna_enable);
-}
-
-bool HalEsp32::getExtAntennaEnable()
-{
-    return _ext_antenna_enable;
-}
-
-void HalEsp32::startWifiAp()
-{
-    wifi_init();
-}
