@@ -145,15 +145,17 @@ esp_err_t config_post_handler(httpd_req_t* req)
 }
 
 // URI routes
-httpd_uri_t root_uri      = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
+httpd_uri_t root_uri       = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
 httpd_uri_t config_get_uri = {.uri = "/config", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
-httpd_uri_t post_uri      = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
+httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
 
 // 启动 Web Server
 httpd_handle_t start_webserver()
 {
-    httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    httpd_handle_t server = nullptr;
+    httpd_config_t config  = HTTPD_DEFAULT_CONFIG();
+    config.max_uri_len     = CONFIG_HTTPD_MAX_URI_LEN;
+    config.max_req_hdr_len = CONFIG_HTTPD_MAX_REQ_HDR_LEN;
+    httpd_handle_t server  = nullptr;
 
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &root_uri);
