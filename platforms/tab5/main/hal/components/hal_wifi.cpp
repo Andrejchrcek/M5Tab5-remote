@@ -202,3 +202,5 @@ bool HalEsp32::wifi_init()
 
 void HalEsp32::setExtAntennaEnable(bool enable)
 {
+
+}
