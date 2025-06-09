@@ -61,7 +61,6 @@ static void wifi_reconfigure()
     strncpy(reinterpret_cast<char*>(ap_config.ap.ssid), g_ap_ssid, sizeof(ap_config.ap.ssid));
     ap_config.ap.ssid_len       = strlen(g_ap_ssid);
     ap_config.ap.channel        = 1;
- main
     ap_config.ap.max_connection = MAX_STA_CONN;
     ap_config.ap.authmode       = WIFI_AUTH_OPEN;
 
@@ -80,7 +79,6 @@ static void wifi_reconfigure()
     ESP_ERROR_CHECK(esp_wifi_start());
     g_wifi_started = true;
     ESP_LOGI(TAG, "Wi-Fi AP started. SSID:%s", g_ap_ssid);
- main
     if (strlen(g_sta_ssid) > 0) {
         esp_wifi_connect();
     }
@@ -147,8 +145,9 @@ esp_err_t config_post_handler(httpd_req_t* req)
 }
 
 // URI routes
-httpd_uri_t root_uri = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
-httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
+httpd_uri_t root_uri      = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
+httpd_uri_t config_get_uri = {.uri = "/config", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
+httpd_uri_t post_uri      = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
 
 // 启动 Web Server
 httpd_handle_t start_webserver()
@@ -158,6 +157,7 @@ httpd_handle_t start_webserver()
 
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &root_uri);
+        httpd_register_uri_handler(server, &config_get_uri);
         httpd_register_uri_handler(server, &post_uri);
     }
     return server;
