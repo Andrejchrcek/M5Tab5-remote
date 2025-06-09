@@ -322,14 +322,6 @@ bool HalEsp32::usbCDetect()
     // return false;
 }
 
-bool HalEsp32::getExtAntennaEnable() {
-    return _ext_antenna_enable;
-}
-
-void HalEsp32::startWifiAp() {
-    wifi_init();
-}
-
 bool HalEsp32::headPhoneDetect()
 {
     return bsp_headphone_detect();
