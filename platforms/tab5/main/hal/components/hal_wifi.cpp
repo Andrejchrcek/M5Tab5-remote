@@ -35,8 +35,8 @@ static void url_decode(char* dst, const char* src)
     char a, b;
     while (*src) {
         if ((*src == '%') && ((a = src[1]) && (b = src[2])) && isxdigit(a) && isxdigit(b)) {
-            a = (a >= 'a') ? a - 'a' + 10 : (a >= 'A') ? a - 'A' + 10 : a - '0';
-            b = (b >= 'a') ? b - 'a' + 10 : (b >= 'A') ? b - 'A' + 10 : b - '0';
+            a      = (a >= 'a') ? a - 'a' + 10 : (a >= 'A') ? a - 'A' + 10 : a - '0';
+            b      = (b >= 'a') ? b - 'a' + 10 : (b >= 'A') ? b - 'A' + 10 : b - '0';
             *dst++ = 16 * a + b;
             src += 3;
         } else if (*src == '+') {
@@ -122,7 +122,7 @@ esp_err_t config_post_handler(httpd_req_t* req)
     }
     buf[received] = '\0';
 
-    char *tok = strtok(buf, "&");
+    char* tok = strtok(buf, "&");
     while (tok) {
         if (strncmp(tok, "ap_ssid=", 8) == 0) {
             url_decode(g_ap_ssid, tok + 8);
@@ -141,8 +141,8 @@ esp_err_t config_post_handler(httpd_req_t* req)
 }
 
 // URI routes
-httpd_uri_t root_uri   = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
-httpd_uri_t post_uri   = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
+httpd_uri_t root_uri = {.uri = "/", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
+httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
 
 // 启动 Web Server
 httpd_handle_t start_webserver()
