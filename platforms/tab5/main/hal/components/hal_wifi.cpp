@@ -31,6 +31,11 @@ static char g_sta_ssid[32] = "";
 static char g_sta_pass[64] = "";
 static bool g_wifi_started = false;
 
+const char* hal_wifi_get_ap_ssid()
+{
+    return g_ap_ssid;
+}
+
 static void url_decode(char* dst, const char* src)
 {
     char a, b;
