@@ -24,7 +24,8 @@ static char g_sta_ssid[32] = "";
 static char g_sta_pass[64] = "";
 static bool g_wifi_started = false;
 
-const char* hal_wifi_get_ap_ssid()
+extern "C" const char* hal_wifi_get_ap_ssid()
+
 {
     return g_ap_ssid;
 }
@@ -149,7 +150,7 @@ httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config
 
 
 // 启动 Web Server
-httpd_handle_t start_webserver()
+extern "C" httpd_handle_t start_webserver()
 {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server  = nullptr;
@@ -163,7 +164,7 @@ httpd_handle_t start_webserver()
 }
 
 // Initialize Wi-Fi in AP+STA mode
-void wifi_init_apsta()
+extern "C" void wifi_init_apsta()
 {
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
