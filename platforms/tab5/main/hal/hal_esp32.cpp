@@ -323,11 +323,11 @@ bool HalEsp32::usbCDetect()
 }
 
 bool HalEsp32::getExtAntennaEnable() {
-    return false; // alebo správnu logiku
+    return _ext_antenna_enable;
 }
 
 void HalEsp32::startWifiAp() {
-    // implementuj alebo nechaj prázdne
+    wifi_init();
 }
 
 bool HalEsp32::headPhoneDetect()
