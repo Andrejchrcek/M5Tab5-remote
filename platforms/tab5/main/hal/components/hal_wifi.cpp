@@ -15,13 +15,16 @@
 
 #define TAG "wifi"
 
-#define WIFI_SSID    "M5Tab5-UserDemo-WiFi"
-#define WIFI_PASS    ""
-#define MAX_STA_CONN 4
+#define WIFI_SSID        "M5Tab5-UserDemo-WiFi"
+#define WIFI_PASS        ""
+#define DEFAULT_STA_SSID "Milord"
+#define DEFAULT_STA_PASS "Petkinnet666"
+#define MAX_STA_CONN     4
 
 static char g_ap_ssid[32]  = WIFI_SSID;
-static char g_sta_ssid[32] = "Milord";
-static char g_sta_pass[64] = "Petkinnet666";
+static char g_sta_ssid[32] = DEFAULT_STA_SSID;
+static char g_sta_pass[64] = DEFAULT_STA_PASS;
+
 static bool g_wifi_started = false;
 
 extern "C" const char* hal_wifi_get_ap_ssid()
@@ -148,12 +151,11 @@ httpd_uri_t root_uri       = {.uri = "/", .method = HTTP_GET, .handler = config_
 httpd_uri_t config_get_uri = {.uri = "/config", .method = HTTP_GET, .handler = config_get_handler, .user_ctx = nullptr};
 httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config_post_handler, .user_ctx = nullptr};
 
-
 // 启动 Web Server
 extern "C" httpd_handle_t start_webserver()
 {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    httpd_handle_t server  = nullptr;
+    httpd_handle_t server = nullptr;
 
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &root_uri);
@@ -177,4 +179,3 @@ extern "C" void wifi_init_apsta()
 
     wifi_reconfigure();
 }
-
