@@ -61,6 +61,7 @@ static void wifi_reconfigure()
     strncpy(reinterpret_cast<char*>(ap_config.ap.ssid), g_ap_ssid, sizeof(ap_config.ap.ssid));
     ap_config.ap.ssid_len       = strlen(g_ap_ssid);
     ap_config.ap.channel        = 1;
+ main
     ap_config.ap.max_connection = MAX_STA_CONN;
     ap_config.ap.authmode       = WIFI_AUTH_OPEN;
 
@@ -79,6 +80,7 @@ static void wifi_reconfigure()
     ESP_ERROR_CHECK(esp_wifi_start());
     g_wifi_started = true;
     ESP_LOGI(TAG, "Wi-Fi AP started. SSID:%s", g_ap_ssid);
+ main
     if (strlen(g_sta_ssid) > 0) {
         esp_wifi_connect();
     }
@@ -204,17 +206,5 @@ bool HalEsp32::wifi_init()
 
 void HalEsp32::setExtAntennaEnable(bool enable)
 {
-    _ext_antenna_enable = enable;
-    mclog::tagInfo(TAG, "set ext antenna enable: {}", _ext_antenna_enable);
-    bsp_set_ext_antenna_enable(_ext_antenna_enable);
-}
 
-bool HalEsp32::getExtAntennaEnable()
-{
-    return _ext_antenna_enable;
-}
-
-void HalEsp32::startWifiAp()
-{
-    wifi_init();
 }
