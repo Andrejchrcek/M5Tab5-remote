@@ -20,8 +20,8 @@
 #define MAX_STA_CONN 4
 
 static char g_ap_ssid[32]  = WIFI_SSID;
-static char g_sta_ssid[32] = "";
-static char g_sta_pass[64] = "";
+static char g_sta_ssid[32] = "Milord";
+static char g_sta_pass[64] = "Petkinnet666";
 static bool g_wifi_started = false;
 
 extern "C" const char* hal_wifi_get_ap_ssid()
