@@ -4,4 +4,3 @@ idf_component_register(
         "hal/components/hal_wifi.cpp"
     INCLUDE_DIRS "."
 )
-

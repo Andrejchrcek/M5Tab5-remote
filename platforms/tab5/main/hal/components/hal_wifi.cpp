@@ -151,9 +151,7 @@ httpd_uri_t post_uri = {.uri = "/config", .method = HTTP_POST, .handler = config
 // 启动 Web Server
 httpd_handle_t start_webserver()
 {
-    httpd_config_t config  = HTTPD_DEFAULT_CONFIG();
-    config.max_uri_len     = CONFIG_HTTPD_MAX_URI_LEN;
-    config.max_req_hdr_len = CONFIG_HTTPD_MAX_REQ_HDR_LEN;
+    httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server  = nullptr;
 
     if (httpd_start(&server, &config) == ESP_OK) {

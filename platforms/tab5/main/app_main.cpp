@@ -16,7 +16,7 @@ extern "C" void app_main(void)
     wifi_init_apsta();
     start_webserver();
 
-    lv_display_t* disp = bsp_display_start();
+    bsp_display_start();
     bsp_display_backlight_on();
 
     const char* ssid = hal_wifi_get_ap_ssid();
