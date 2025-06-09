@@ -2,3 +2,6 @@
 dependencies:
   idf: '>=5.3'
   espressif/led_strip: 3.0.0
+  espressif/esp_hosted: 1.4.0
+  espressif/esp_wifi_remote: 0.8.5
+
